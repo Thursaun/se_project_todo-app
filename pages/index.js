@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
-
 import { initialTodos, validationConfig} from "../utils/constants.js";
 import Todo from "../components/Todo.js";
+import FormValidator from "../components/FormValidator.js";
 
 
 const addTodoButton = document.querySelector(".button_action_add");
@@ -14,8 +14,11 @@ const openModal = (modal) => {
   modal.classList.add("popup_visible");
 };
 
-const closeModal = (modal) => {
+const closeModal = (modal, validator) => {
   modal.classList.remove("popup_visible");
+  if (validator) {
+    validator.resetValidation();
+  }
 };
 
 // The logic in this function should all be handled in the Todo class.
@@ -31,7 +34,7 @@ addTodoButton.addEventListener("click", () => {
 });
 
 addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopup);
+  closeModal(addTodoPopup, newTodoValidator);
 });
 
 addTodoForm.addEventListener("submit", (evt) => {
@@ -47,10 +50,13 @@ addTodoForm.addEventListener("submit", (evt) => {
   const values = { name, date, id };
   const todo = generateTodo(values);
   todosList.append(todo);
-  closeModal(addTodoPopup);
+  closeModal(addTodoPopup, newTodoValidator);
 });
 
 initialTodos.forEach((item) => {
   const todo = generateTodo(item);
   todosList.append(todo);
 });
+
+const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
+newTodoValidator.enableValidation();
