@@ -88,8 +88,9 @@
               </template>
             </ul>
           </section>
-          <script src="./pages/index.js" defer></script>
-          <script src="./scripts/validate.js" defer></script>
+          <script type="module" src="./pages/index.js" >
+            import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+          </script>
         </main>
       </div>
     </div>
