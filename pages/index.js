@@ -18,12 +18,19 @@ function handleCheck(completed) {
   todoCounter.updateCompleted(completed);
 }
 
+function handleDelete(completed) {
+  todoCounter.updateTotal(false);
+  if (completed) {
+      todoCounter.updateCompleted(false);
+  }
+}
+
 function handleTotal(increment = true) {
   todoCounter.updateTotal(increment);
 }
 
 const generateTodo = (data) => {
-  const todo = new Todo(data, "#todo-template", handleCheck);
+  const todo = new Todo(data, "#todo-template", handleCheck, handleDelete);
   const todoElement = todo.getView();
   return todoElement;
 }
@@ -38,6 +45,9 @@ const section = new Section({
 });
 
 section.renderItems();
+
+const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
+newTodoValidator.enableValidation();
 
 const addTodoPopup = new PopupWithForm({
   popupSelector: "#add-todo-popup",
@@ -55,7 +65,8 @@ const addTodoPopup = new PopupWithForm({
     section.addItem(todo);
     handleTotal(true);
     addTodoPopup.close();
-  }
+  },
+  formValidator: newTodoValidator
 });
 
 addTodoPopup.setEventListeners();
@@ -64,5 +75,3 @@ addTodoButton.addEventListener("click", () => {
   addTodoPopup.open();
 });
 
-const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
-newTodoValidator.enableValidation();
