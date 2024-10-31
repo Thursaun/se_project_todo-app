@@ -1,6 +1,4 @@
 class TodoCounter {
-    // todos should be the array of initial todos
-    // selector is the selector for the counter text element
     constructor(todos, selector) {
       this._element = document.querySelector(selector)
       this._completed = todos.filter((todo) => todo.completed).length; // number of completed todos
@@ -19,8 +17,6 @@ class TodoCounter {
     };
   
     _updateText() {
-      // Sets the text content of corresponding text element.  
-      // Call this in the constructor, and whenever the counts get updated.
       this._element.textContent = `Showing ${this._completed} out of ${this._total} completed`;
     }
   }
